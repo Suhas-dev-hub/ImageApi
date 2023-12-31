@@ -15,10 +15,10 @@ from PIL import Image as im
 from PIL import ImageTk   
 import base64
 from flask import Flask, request, jsonify  
-import io
+import io 
+from fastapi import FastAPI 
 
-
-app = Flask(__name__)
+app = FastAPI()
 
 @app.route("/image", methods=["POST"])
 def convertImageToPlate():
@@ -113,6 +113,3 @@ def extract_number_plate(file):
     # if len(self.result) == 10:
     # self.ui.Extract_det.setPlainText(f"Extracted number plate \n {self.result}") 
     return result  
-
-if __name__ == "__main__":
-    app.run(host='localhost')
