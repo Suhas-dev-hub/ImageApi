@@ -15,7 +15,9 @@ from PIL import Image as im
 from PIL import ImageTk   
 import base64
 from flask import Flask, request, jsonify  
-import io 
+import io  
+
+app = Flask(__name__)
 
 @app.route("/image", methods=["POST"])
 def convertImageToPlate():
@@ -103,7 +105,7 @@ def extract_number_plate(file):
     pattern = r"^[A-Za-z]{0,2}\d{0,2}[A-Za-z]{0,2}\d{0,4}$"
     matches = re.findall(pattern, license_plate_text1)
     result = "".join(matches)
-    return result   
+    return result  
 
-if __name__ == "__main__": 
-    app.run()
+if __name__ == "__main__":
+    app.run() 
