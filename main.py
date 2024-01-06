@@ -16,16 +16,12 @@ from PIL import ImageTk
 import base64
 from flask import Flask, request, jsonify  
 import io 
-from fastapi import FastAPI 
-
-app = FastAPI()
 
 @app.route("/image", methods=["POST"])
 def convertImageToPlate():
     data = request.get_json()   
     imgdata = base64.b64decode(str(data["base64"])) 
     img = im.open(io.BytesIO(imgdata))
-    # opencv_img= cv2.cvtColor(np.array(img), cv2.COLOR_BGR2RGB)
     return process(img)  
 
 
@@ -37,8 +33,6 @@ def hello():
 
 
 def process(img):
-    # img=imread(file)
-    
     gray = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY)
     image = im.fromarray(gray)
     width, height = image.size
@@ -102,7 +96,6 @@ def extract_number_plate(file):
     last_string = process(file)
     license_plate_text = last_string.upper()
 
-    # Apply regex and formatting to the license plate text
     license_plate_text1 = re.sub(r"\s+", "", license_plate_text)
 
     license_plate_text1 = re.sub(r"[^A-Z0-9]+", "", license_plate_text) 
@@ -110,6 +103,7 @@ def extract_number_plate(file):
     pattern = r"^[A-Za-z]{0,2}\d{0,2}[A-Za-z]{0,2}\d{0,4}$"
     matches = re.findall(pattern, license_plate_text1)
     result = "".join(matches)
-    # if len(self.result) == 10:
-    # self.ui.Extract_det.setPlainText(f"Extracted number plate \n {self.result}") 
-    return result  
+    return result   
+
+if __name__ == "__main__": 
+    app.run()
